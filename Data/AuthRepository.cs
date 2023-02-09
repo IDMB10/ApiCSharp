@@ -23,7 +23,7 @@ namespace APIWeb.Data {
             return false;
         }
 
-        public async Task<Usuario> Login(string correo, string password) {
+        public async Task<Usuario?> Login(string correo, string password) {
             if (_context.Usuarios == null)
                 return null;
 
