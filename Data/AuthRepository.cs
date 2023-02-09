@@ -52,7 +52,7 @@ namespace APIWeb.Data {
             return false;
         }
 
-        public async Task<Usuario> Registrar(Usuario usuario, string password) {
+        public async Task<Usuario?> Registrar(Usuario usuario, string password) {
             CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
             usuario.PasswordHash = passwordHash;
             usuario.PasswordSalt = passwordSalt;
