@@ -11,10 +11,13 @@ using APIWeb.Models;
 
 namespace APIWeb.Services {
     public class TokenService : ITokenService {
-        private readonly SymmetricSecurityKey _ssKey;
+        private readonly SymmetricSecurityKey? _ssKey = null;
 
         public TokenService(IConfiguration configuration) {
-            _ssKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Token"]));
+            string? palabraSecreta = configuration["Token"];
+            if (!string.IsNullOrEmpty(palabraSecreta)) {
+                _ssKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(palabraSecreta));
+            }
         }
 
         public string CreateToken(Usuario usuario) {

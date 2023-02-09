@@ -28,16 +28,19 @@ namespace APIWeb {
             builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 
             //Agregando servicio de autenticaciòn
-            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(
-                options => {
-                    options.TokenValidationParameters = new TokenValidationParameters() {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Token"])),
-                        ValidateIssuer = false,
-                        ValidateAudience = false
-                    };
-                }
-            );
+            string? palabraSecreta = builder.Configuration["Token"];
+            if (!string.IsNullOrEmpty(palabraSecreta)) {
+                builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(
+                    options => {
+                        options.TokenValidationParameters = new TokenValidationParameters() {
+                            ValidateIssuerSigningKey = true,
+                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(palabraSecreta)),
+                            ValidateIssuer = false,
+                            ValidateAudience = false
+                        };
+                    }
+                );
+            }
 
             //Agregando Servicio de Token
             builder.Services.AddScoped<ITokenService, TokenService>();
